@@ -1,0 +1,2 @@
+# interface-guizero-comparador
+ 
