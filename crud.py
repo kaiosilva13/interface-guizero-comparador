@@ -14,7 +14,7 @@ class DataBase():
             password=self.password,
             database=self.db_name,
             port=self.db_port,
-            ssl_disabled = True
+            #ssl_disabled = True
         )
         self.__cursor = self.__connection.cursor(buffered=True)
 
@@ -47,8 +47,8 @@ class DataBase():
     def update(self, table, attribute, newvalue, id_field, id_value) -> None:
         query = (
             f'UPDATE {table} '
-            f'SET {attribute} = %s '  # newvalue
-            f'WHERE {id_field} = %s '  # id_value
+            f'SET {attribute} = %s '  
+            f'WHERE {id_field} = %s ' 
         )
         self.__cursor.execute(query, (newvalue, id_value))
         self.__connection.commit()

@@ -44,17 +44,23 @@ def add(window,id,title, value, description):
 
 
 def edit(window, connection, reg, new_reg):
-    reg_modified = {'titulo': new_reg[0].value, 'valor': new_reg[1].value,
-                    'descricao': new_reg[2].value.replace('\n','')}
-    changed_values = [(k, v) for k, v in reg_modified.items() if not reg[k] == v]
-    for key in reg.keys():
-        if key in ('id_produto', 'id_loja'):
-            pass
-        else:
-            connection.update('produtos', key, reg_modified[key], 'id_produto', reg['id_produto'])
-    connection.close()
-    window.destroy()
-    close_window_search()
+    checked_number = check_number(new_reg[1].value)
+    if '' in (new_reg[0].value, new_reg[2].value, new_reg[1].value):
+        window.info(title='info', text='Informe valores para todos os atributos!')
+    elif checked_number is None:
+        window.info(title='info', text='Informe um valor númerico válido!')
+    else:
+        reg_modified = {'titulo': new_reg[0].value, 'valor': checked_number,
+                        'descricao': new_reg[2].value.replace('\n','')}
+        changed_values = [(k, v) for k, v in reg_modified.items() if not reg[k] == v]
+        for key in reg.keys():
+            if key in ('id_produto', 'id_loja'):
+                pass
+            else:
+                connection.update('produtos', key, reg_modified[key], 'id_produto', reg['id_produto'])
+        connection.close()
+        window.destroy()
+        close_window_search()
 
 
 def close_window_search():
@@ -167,7 +173,7 @@ def show_password():
         pwd_show.image = 'img/senha_visivel.png/'
         pwd_input.hide_text = False
     else:
-        pwd_show.image = 'crud_folder/img/senha_nao_visivel.png/'
+        pwd_show.image = 'img/senha_nao_visivel.png/'
         pwd_input.hide_text = True
 
 
